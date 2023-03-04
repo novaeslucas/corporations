@@ -13,7 +13,7 @@ public class MailConfiguration {
     @Bean
     public JavaMailSender getJavaMailSender() {
         JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
-        mailSender.setHost("10.15.65.1");
+        mailSender.setHost("");
         mailSender.setPort(25);
 
         Properties props = mailSender.getJavaMailProperties();

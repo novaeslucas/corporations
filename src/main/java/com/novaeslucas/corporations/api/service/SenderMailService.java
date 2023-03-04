@@ -13,7 +13,7 @@ public class SenderMailService {
 
     public void enviar(String destinatario, String titulo, String conteudo) {
         SimpleMailMessage email = new SimpleMailMessage();
-        email.setFrom("no-reply@tcm.ba.gov.br");
+        email.setFrom("");
         email.setTo(destinatario);
         email.setSubject(titulo);
         email.setText(conteudo);
