@@ -65,7 +65,7 @@ public class CorporationApiController implements CorporationApi {
         if (accept != null && accept.contains("application/json")) {
             try {
                 if(corporation.getTipo() != null){
-                    mailService.enviar("novaeslucas@gmail.com", "teste", "teste de email");
+//                    mailService.enviar("novaeslucas@gmail.com", "teste", "teste de email");
                     return new ResponseEntity<Corporation>(objectMapper.readValue("{  \"nome\" : \"" + corporation.getNome() + "\",  \"tipo\" : \"" + corporation.getTipo() + "\"}", Corporation.class), HttpStatus.NOT_IMPLEMENTED);
                 }else{
                     throw new ApiException(500, "Tipo não permitido");

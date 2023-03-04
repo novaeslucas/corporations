@@ -2,6 +2,7 @@ swagger: '2.0'
 info:
   title: Corporations
   version: 1.0.0
+
 paths:
   /corporation/inserir:
     post:
@@ -22,6 +23,7 @@ paths:
           description: Created
           schema:
             $ref: '#/definitions/Corporation'
+
   /corporation/getAll:
     get:
       tags:
@@ -52,6 +54,7 @@ paths:
           description: OK
           schema:
             $ref: '#/definitions/PaginacaoDeCorporation'
+
 definitions:
   TipoEnum:
     type: string
@@ -71,6 +74,7 @@ definitions:
       tipo:
         type: string
         $ref: '#/definitions/TipoEnum'
+
   CorporationInput:
     type: object
     properties:
@@ -79,6 +83,49 @@ definitions:
       tipo:
         type: string
         $ref: '#/definitions/TipoEnum'
+        example: "Financeiro"
+        description: "Tipo"
+        pattern: "(()|[Financeiro]{10}|[Agro]{4}|[Tecnologia]{10})"
+        x-pattern-message: "informe um valor igual a: Financeiro, Agro ou Tecnologia."
+      situacao:
+        type: "string"
+        pattern: "(()|[0-1]{1})"
+        x-pattern-message: "informe 0 ou 1."
+      profissao:
+        type: "string"
+        example: "DESENVOLVEDOR"
+        description: "Profissão do Cedente Pessoa Fisica"
+        pattern: "(()|[AVALISTA]{8}|[DIRETOR]{7}|([DIRETOR]{7}.*[FINANCEIRO]{10})|([DIRETOR]{7}.*[GERAL]{5})|([DIRETOR]{7}.*[PRESIDENTE]{10})|([DIRETOR]{7}.*[SUPERINTENDENTE]{15})|([DIRETOR]{7}.*[VICE]{4}.*[PRESIDENTE]{10})|[PROCURADOR]{10}|[PROPRIETARIO]{12}|([PROPRIETARIO]{12}.*[DIRIGENTE]{9})|[SOCIO]{5}|([SOCIO]{5}.*[PROPRIETARIO]{12}))"
+        x-pattern-message: "informe um valor igual a: AVALISTA, DIRETOR, DIRETOR FINANCEIRO, DIRETOR GERAL, DIRETOR PRESIDENTE, DIRETOR SUPERINTENDENTE, DIRETOR VICE PRESIDENTE, PROCURADOR, PROPRIETARIO,PROPRIETARIO DIRIGENTE, SOCIO, SOCIO PROPRIETARIO."
+      nacionalidade:
+        type: "string"
+        example: "BRASILEIRO"
+        description: "Nacionalidade"
+        pattern: "(()|[BRASILEIRO]{10}|[OUTRO]{5})"
+        x-pattern-message: "informe um valor igual a: BRASILEIRO ou OUTRO."
+      estadoCivil:
+        type: "string"
+        example: "SOLTEIRO"
+        description: "Estado Civil"
+        pattern: "(()|[SOLTEIRO]{8}|[CASADO]{6}|[SEPARADO]{8}|[DIVORCIADO]{10}|[VIUVO]{5})"
+        x-pattern-message: "informe um valor igual a: SOLTEIRO, CASADO, SEPARADO, DIVORCIADO ou VIUVO."
+      uf:
+        type: "string"
+        example: "SP"
+        description: "Sigla do Estado do endereco"
+        minLength: 2
+        maxLength: 2
+        pattern: "([AC]|[AL]|[AP]|[AM]|[BA]|[CE]|[DF]|[ES]|[GO]|[MA]|[MT]|[MS]|[MG]|[PA]|[PB]|[PR]|[PE]|[PI]|[RJ]|[RN]|[RS]|[RO]|[RR]|[SC]|[SP]|[SE]|[TO]){2}"
+        x-pattern-message: "informe um valor igual a: AC, AL, AP, AM, BA, CE, DF, ES, GO, MA, MT, MS, MG, PA, PB, PR, PE, PI, RJ, RN, RS, RO, RR, SC, SP, SE, TO."
+      email:
+        type: "string"
+        example: "email@email.com"
+        description: "Email"
+        minLength: 5
+        maxLength: 200
+        pattern: "^(.+)@(.+)$"
+        x-pattern-message: "informe um email válido no formato email@email.com."
+
   PaginacaoDeCorporation:
     type: object
     properties:
