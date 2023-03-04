@@ -1,0 +1,94 @@
+swagger: '2.0'
+info:
+  title: Corporations
+  version: 1.0.0
+paths:
+  /corporation/inserir:
+    post:
+      tags:
+        - corporation
+      summary: Cria um novo Corporation.
+      description: Cria um novo corporation com os dados fornecidos.
+      operationId: insertCorporation
+      parameters:
+        - name: corporation
+          in: body
+          description: Dados do corporation a ser criado.
+          required: true
+          schema:
+            $ref: '#/definitions/CorporationInput'
+      responses:
+        '201':
+          description: Created
+          schema:
+            $ref: '#/definitions/Corporation'
+  /corporation/getAll:
+    get:
+      tags:
+        - corporation
+      summary: Obtém uma lista paginada de corporations.
+      description: Retorna uma lista paginada de corporations.
+      operationId: getAllCorporations
+      parameters:
+        - name: page
+          in: query
+          description: O número da página a ser retornada.
+          required: false
+          type: integer
+          format: int32
+          minimum: 0
+          default: 0
+        - name: size
+          in: query
+          description: O tamanho da página a ser retornada.
+          required: false
+          type: integer
+          format: int32
+          minimum: 1
+          maximum: 100
+          default: 20
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/PaginacaoDeCorporation'
+definitions:
+  TipoEnum:
+    type: string
+    description: 'teste'
+    enum:
+      - Financeiro
+      - Agro
+      - Tecnologia
+  Corporation:
+    type: object
+    properties:
+      id:
+        type: integer
+        format: int64
+      nome:
+        type: string
+      tipo:
+        type: string
+        $ref: '#/definitions/TipoEnum'
+  CorporationInput:
+    type: object
+    properties:
+      nome:
+        type: string
+      tipo:
+        type: string
+        $ref: '#/definitions/TipoEnum'
+  PaginacaoDeCorporation:
+    type: object
+    properties:
+      corporations:
+        type: array
+        items:
+          $ref: '#/definitions/Corporation'
+      paginaAtual:
+        type: integer
+        format: int32
+      totalDePaginas:
+        type: integer
+        format: int32
