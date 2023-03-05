@@ -141,7 +141,7 @@
 		</plugins>
 		<resources>
 			<resource>
-				<directory>target/generated-sources</directory>
+				<directory>${project.basedir}/target/generated-sources</directory>
 				<includes>
 					<include>**/*.java</include>
 				</includes>
