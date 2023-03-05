@@ -5,10 +5,10 @@ import javax.validation.Payload;
 import java.lang.annotation.*;
 
 @Documented
-@Constraint(validatedBy = {TipoEnumValueValidator.class})
+@Constraint(validatedBy = {EnumValueValidator.class})
 @Target({ ElementType.METHOD, ElementType.FIELD, ElementType.PARAMETER })
 @Retention(RetentionPolicy.RUNTIME)
-public @interface TipoEnumValidator {
+public @interface EnumValidator {
 
     public abstract String message() default "Valor inválido. Não permitido.";
 

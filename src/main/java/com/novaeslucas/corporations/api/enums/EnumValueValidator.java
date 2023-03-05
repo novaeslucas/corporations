@@ -3,12 +3,12 @@ package com.novaeslucas.corporations.api.enums;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
-public class TipoEnumValueValidator implements ConstraintValidator<TipoEnumValidator, String>
+public class EnumValueValidator implements ConstraintValidator<EnumValidator, String>
 {
-    private TipoEnumValidator annotation;
+    private EnumValidator annotation;
 
     @Override
-    public void initialize(TipoEnumValidator annotation)
+    public void initialize(EnumValidator annotation)
     {
         this.annotation = annotation;
     }
