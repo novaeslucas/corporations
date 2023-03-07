@@ -1,0 +1,19 @@
+package {{package}};
+
+{{#imports}}import {{import}};
+{{/imports}}
+import com.novaeslucas.corporations.api.enumValidator.EnumValidator;
+import org.springframework.validation.annotation.Validated;
+import java.util.Objects;
+import javax.validation.Valid;
+
+{{#models}}
+{{#model}}
+{{#isEnum}}
+{{>enumOuterClass}}
+{{/isEnum}}
+{{^isEnum}}
+{{>pojo}}
+{{/isEnum}}
+{{/model}}
+{{/models}}

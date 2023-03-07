@@ -5,15 +5,11 @@ import com.google.gson.JsonObject;
 import com.novaeslucas.corporations.api.model.Corporation;
 import com.novaeslucas.corporations.api.model.CorporationInput;
 import com.novaeslucas.corporations.api.model.PaginacaoDeCorporation;
-import com.novaeslucas.corporations.api.service.SenderMailService;
-import io.swagger.annotations.ApiModelProperty;
 import io.swagger.annotations.ApiParam;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -34,9 +30,6 @@ public class CorporationApiController implements CorporationApi {
     private final ObjectMapper objectMapper;
 
     private final HttpServletRequest request;
-
-    @Autowired
-    private SenderMailService mailService;
 
     @org.springframework.beans.factory.annotation.Autowired
     public CorporationApiController(ObjectMapper objectMapper, HttpServletRequest request) {
@@ -65,7 +58,6 @@ public class CorporationApiController implements CorporationApi {
         if (accept != null && accept.contains("application/json")) {
             try {
                 if(corporation.getTipo() != null){
-//                    mailService.enviar("novaeslucas@gmail.com", "teste", "teste de email");
                     return new ResponseEntity<Corporation>(objectMapper.readValue("{  \"nome\" : \"" + corporation.getNome() + "\",  \"tipo\" : \"" + corporation.getTipo() + "\"}", Corporation.class), HttpStatus.NOT_IMPLEMENTED);
                 }else{
                     throw new ApiException(500, "Tipo não permitido");
