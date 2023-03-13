@@ -5,15 +5,29 @@ info:
 
 host: localhost
 
-x-tipo-env: &tipo_env
-  pattern: '\\bFinanceiro|Agro|Tecnologia\\b'
-  x-pattern-message: "Teste"
+x-tipo-validation: &tipo_validation
+  pattern: '\\bSTART|Financeiro|Agro|Tecnologia|END\\b'
+  x-pattern-message: "Tipo não permitido"
+
+x-number-validation: &number_validation
+  pattern: '^\\d{18}(\\.\\d{2})'
+  x-pattern-message: "Valor não permitido"
+
+tags:
+  - name: Corporation Endpoints
+    description: "Detalhes de Corporation"
+    externalDocs:
+      url: http://external-corp
+  - name: Pessoa Endpoints
+    description: "Detalhes de Pessoa"
+    externalDocs:
+      url: http://external-pessoa
 
 paths:
-  /corporation/inserir:
+  /corporation:
     post:
       tags:
-        - corporation
+        - Corporation Endpoints
       summary: Cria um novo Corporation.
       description: Cria um novo corporation com os dados fornecidos.
       operationId: insertCorporation
@@ -33,7 +47,7 @@ paths:
   /corporation/getAll:
     get:
       tags:
-        - corporation
+        - Corporation Endpoints
       summary: Obtém uma lista paginada de corporations.
       description: Retorna uma lista paginada de corporations.
       operationId: getAllCorporations
@@ -61,6 +75,39 @@ paths:
           schema:
             $ref: '#/definitions/PaginacaoDeCorporation'
 
+  /pessoa/getAll:
+    get:
+      tags:
+        - Pessoa Endpoints
+      summary: Obtém uma lista de pessoas.
+      description: Retorna uma lista de pessoas.
+      operationId: getAllPessoas
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/PaginacaoPessoa'
+  /pessoaFisica/getAll:
+    get:
+      summary: Obtém uma lista de pessoas fisicas.
+      description: Retorna uma lista de pessoas fisicas.
+      operationId: getAllPessoasFisicas
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/PaginacaoPessoaFisica'
+  /pessoaJuridica/getAll:
+    get:
+      summary: Obtém uma lista de pessoas juridicas.
+      description: Retorna uma lista de pessoas juridicas.
+      operationId: getAllPessoasJuridicas
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/PaginacaoPessoaJuridica'
+
 definitions:
   TipoEnum:
     type: string
@@ -80,7 +127,8 @@ definitions:
       tipo:
         type: string
         $ref: '#/definitions/TipoEnum'
-
+      valor:
+        type: number
   CorporationInput:
     type: object
     properties:
@@ -88,10 +136,13 @@ definitions:
         type: string
       tipo:
         type: string
-        <<: *tipo_env
+        <<: *tipo_validation
         example: "Financeiro"
         description: "Tipo"
-
+      valor:
+        type: number
+        minimum: 000000000000000000.01
+        maximum: 999999999999999999.99
   PaginacaoDeCorporation:
     type: object
     properties:
@@ -105,3 +156,48 @@ definitions:
       totalDePaginas:
         type: integer
         format: int32
+  Pessoa:
+    type: object
+    properties:
+      id:
+        type: integer
+        format: int64
+      nome:
+        type: string
+  PessoaFisica:
+    type: object
+    properties:
+      pessoa:
+        type: object
+        $ref: '#/definitions/Pessoa'
+      cpf:
+        type: string
+  PessoaJuridica:
+    type: object
+    properties:
+      pessoa:
+        type: object
+        $ref: '#/definitions/Pessoa'
+      cnpj:
+        type: string
+  PaginacaoPessoa:
+    type: object
+    properties:
+      pessoas:
+        type: array
+        items:
+          $ref: '#/definitions/Pessoa'
+  PaginacaoPessoaFisica:
+    type: object
+    properties:
+      pessoasFisicas:
+        type: array
+        items:
+          $ref: '#/definitions/PessoaFisica'
+  PaginacaoPessoaJuridica:
+    type: object
+    properties:
+      pessoasJuridicas:
+        type: array
+        items:
+          $ref: '#/definitions/PessoaJuridica'
